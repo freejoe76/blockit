@@ -11,3 +11,15 @@ Use --add / -a followed by the number of minutes to add a block.
 
 Use --check / -c to check if the sites should still be blocked.
 This would ordinarily be done on the crontab.
+
+Usage
+=====
+Block sites for 3 hours:
+```bash
+./blockit.sh -a 180
+```
+
+And add this to your crontab:
+```bash
+* * * * * cd /path/to/blockit; ./blockit.sh -c
+```
