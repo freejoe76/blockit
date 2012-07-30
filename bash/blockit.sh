@@ -68,7 +68,14 @@ if [[ "$minutes" > 0 ]]; then
 
 	# Edit the hosts file
 	echo '###START-blockit.sh' >> /etc/hosts
-	for i in $(cat sites); do echo "127.0.0.1 $i" >> /etc/hosts; done
+	for i in $(cat sites); do 
+		echo "127.0.0.1 $i" >> /etc/hosts;
+		# If there's no www in the url, we add the www version just to be safe.
+		if [[ $i != 'www*' ]]
+		then
+			echo "127.0.0.1 www.$i" >> /etc/hosts;
+		fi
+	done
 	echo '###END-blockit.sh' >> /etc/hosts
 	echo "These sites will be unblocked after $minutes minutes."
 
