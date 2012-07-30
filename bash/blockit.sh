@@ -1,7 +1,13 @@
 #! /bin/bash
 # Takes a list of sites from a text file called sites
 # and blocks access to them for a certain number of 
-# minutes. 
+# minutes. Note: One site url per line, no http://, like so:
+# facebook.com
+# www.facebook.com
+# twitter.com
+# www.reddot.com
+# reddit.com
+# (without the #-space, of course)
 #
 # Use --add / -a followed by the number of minutes
 # to add a block. 
