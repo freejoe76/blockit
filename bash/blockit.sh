@@ -28,11 +28,20 @@ while [ "$1" != "" ]; do
                                 ;;
         -c | --check )		check=1
                                 ;;
+        -t | --time )		TIME=1
+                                ;;
     esac
     shift
 done
 
 NOW=`date +%s`
+
+if [[ "$TIME" == 1 ]]; then
+	# See how much time we've got left.
+	THEN=`cat control`
+	DIFF=$(($THEN-$NOW))
+	echo "`echo $(($DIFF/60))` minutes left"
+fi
 
 if [[ "$check" == 1 ]]; then
 	# Compare the current time against the control time.
