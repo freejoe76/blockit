@@ -54,6 +54,9 @@ if [[ "$check" == 1 ]]; then
 fi
 
 if [[ "$minutes" > 0 ]]; then
+	# Make sure we're not overwriting an existing block
+	test `cat control | wc -m` -ge 0 && ( echo 'No overwrites!'; exit 2 )
+
 	# Remove any existing blocks, instructions.
 	sed -i '/###START-blockit/,/###END-blockit/d' /etc/hosts
 	> control
