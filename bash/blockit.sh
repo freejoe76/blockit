@@ -6,6 +6,9 @@
 # Use --add / -a followed by the number of minutes
 # to add a block. 
 #
+# Example:
+# sudo ./blockit.sh -a 180
+#
 # Use --check / -c to check if the sites should still be blocked.
 # This would ordinarily be done on the crontab.
 #
