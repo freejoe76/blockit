@@ -18,8 +18,3 @@ Block sites for 3 hours:
 ```bash
 ./blockit.sh -a 180
 ```
-
-And add this to your crontab:
-```bash
-* * * * * cd /path/to/blockit; ./blockit.sh -c
-```
