@@ -8,6 +8,8 @@
 #
 # Use --check / -c to check if the sites should still be blocked.
 # This would ordinarily be done on the crontab.
+#
+# Currently this script must be run as root, or via sudo.
 
 # What arguments do we pass?
 while [ "$1" != "" ]; do
@@ -26,7 +28,11 @@ NOW=`date +%s`
 if [[ "$check" == 1 ]]; then
 	# Compare the current time against the control time.
 	THEN=`cat control`
-	test "$NOW" -ge "$THEN" && ( sed -i '/###START-blockit/,/###END-blockit/d' /etc/hosts; > control; echo "Unblocking sites"; )
+
+	# In case we've got crontab edits
+	crontab -l | sed '/###START-blockit/,/###END-blockit/d' > cron
+	test "$NOW" -ge "$THEN" && ( sed -i '/###START-blockit/,/###END-blockit/d' /etc/hosts; > control; crontab cron; echo "Unblocking sites"; )
+	rm cron
 fi
 
 if [[ "$minutes" > 0 ]]; then
@@ -44,5 +50,9 @@ if [[ "$minutes" > 0 ]]; then
 	for i in $(cat sites); do echo "127.0.0.1 $i" >> /etc/hosts; done
 	echo '###END-blockit.sh' >> /etc/hosts
 	echo "These sites will be unblocked after $minutes minutes."
+
+	# Update the crontab
+	(crontab -l; echo '###START-blockit.sh'; echo "* * * * * cd `pwd`/; sudo ./blockit.sh -c"; echo '###END-blockit.sh') | crontab -
+
 fi
 
