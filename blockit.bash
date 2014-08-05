@@ -12,12 +12,12 @@
 # to add a block. 
 #
 # Example:
-# sudo ./blockit.sh -a 180
+# sudo ./blockit.bash -a 180
 #
 # Use --check / -c to check if the sites should still be blocked.
 # This would ordinarily be done on the crontab.
 #
-# Currently this script must be run as root, or via sudo.
+# Currently this script must be run via sudo.
 
 # What arguments do we pass?
 while [ "$1" != "" ]; do
@@ -66,7 +66,7 @@ if [[ "$minutes" > 0 ]]; then
 	echo $THEN > control
 
 	# Edit the hosts file
-	echo '###START-blockit.sh' >> /etc/hosts
+	echo '###START-blockit' >> /etc/hosts
 	for i in $(cat sites); do 
 		echo "127.0.0.1 $i" >> /etc/hosts;
 		# If there's no www in the url, we add the www version just to be safe.
@@ -75,11 +75,11 @@ if [[ "$minutes" > 0 ]]; then
 			echo "127.0.0.1 www.$i" >> /etc/hosts;
 		fi
 	done
-	echo '###END-blockit.sh' >> /etc/hosts
+	echo '###END-blockit' >> /etc/hosts
 	echo "These sites will be unblocked after $minutes minutes."
 
 	# Update the crontab
-	(crontab -l; echo '###START-blockit.sh'; echo "* * * * * cd `pwd`/; sudo ./blockit.sh -c"; echo '###END-blockit.sh') | crontab -
+	(crontab -l; echo '###START-blockit'; echo "* * * * * cd `pwd`/; sudo ./blockit.bash -c"; echo '###END-blockit') | crontab -
 
 fi
 
