@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Block any number of sites in your web browser for any length of time
+
 # Takes a list of sites from a text file called sites
 # and blocks access to them for a certain number of 
 # minutes. Note: One site url per line, no http://, no www,
